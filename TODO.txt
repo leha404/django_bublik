@@ -1,21 +1,21 @@
 - Создать модели:
-    - Product
-        - ID
-        - name
-        - price
+    + Product
+        + ID (auto)
+        + name
+        + price
     - order_product_m2m
         - product_id
         - order_id
         - count
     - Order
-        - ID
+        + ID (auto)
         - date
         - payment_type
             - cash
             - card
             - perevod
 
-- Заполнить product
++ Заполнить product тестово
 - Вывести product_list
 - Создать 1 order (руками)
 - Связать m2m c остальными моделями
