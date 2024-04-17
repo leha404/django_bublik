@@ -1,0 +1,9 @@
+{% extends 'bublik/base.html' %}
+
+{% block content %}
+	{% for product in products %}
+		<div class="product">
+			<h3>{{ product.name }} - {{ product.price }}</h3>
+		</div>
+	{% endfor %}
+{% endblock %}
