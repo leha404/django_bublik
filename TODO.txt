@@ -3,22 +3,22 @@
         + ID (auto)
         + name
         + price
-    - order_product_m2m
-        - product_id
-        - order_id
-        - count
-    - Order
+    + order_product_m2m (OrderPosition)
+        + product_id
+        + order_id
+        + count
+    + Order
         + ID (auto)
-        - date
-        - payment_type
-            - cash
-            - card
-            - perevod
+        + date
+        + payment_type
+            + cash
+            + card
+            + perevod
 
 + Заполнить product тестово
 - Вывести product_list
-- Создать 1 order (руками)
-- Связать m2m c остальными моделями
++ Создать 1 order (руками)
++ Связать m2m c остальными моделями
 - Заполнить пару записей
 - Сформировать отчет и вывести куда-нибудь
 - Сделать формы для заполнения Order
