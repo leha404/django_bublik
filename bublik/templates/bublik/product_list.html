@@ -2,11 +2,23 @@
 
 {% block content %}
 	<div class="container text-center">
+		<div class="row">
+			<div class="col">
+				<button id="reset-button" class="product">Сбросить корзину</button>
+			</div>
+			<div class="col">
+				<button class="product">Сохранить заказ</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="container text-center">
 	{% for chunk in products_chunks %}
 		<div class="row">
 		{% for product in chunk %}
-			<div class="col product">
+			<div class="col product" data-product-id="{{ product.id }}">
 				<h3>{{ product.name }} - {{ product.price }}</h3>
+				<p>В корзине: <span class="product-quantity" data-product-id="{{ product.id }}">0</span></p>
 			</div>
 		{% endfor %}
 		{% if chunk|length == 1 %}
@@ -17,4 +29,29 @@
 		</div>
 	{% endfor %}
 	</div>
+
+	<!-- JS -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+		const productDivs = document.querySelectorAll('.product');
+	
+		productDivs.forEach(div => {
+			div.addEventListener('click', function() {
+				const productId = this.dataset.productId;
+				const quantityElement = document.querySelector('.product-quantity[data-product-id="' + productId + '"]');
+				let quantity = parseInt(quantityElement.innerText);
+				quantityElement.innerText = ++quantity;
+			});
+		});
+
+		// Обработчик клика для кнопки сброса
+		const resetButton = document.getElementById('reset-button');
+		resetButton.addEventListener('click', function() {
+			const quantityElements = document.querySelectorAll('.product-quantity');
+			quantityElements.forEach(element => {
+				element.innerText = 0;
+			});
+		});
+	});
+	</script>
 {% endblock %}
