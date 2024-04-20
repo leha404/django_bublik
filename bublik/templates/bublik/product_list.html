@@ -1,9 +1,20 @@
 {% extends 'bublik/base.html' %}
 
 {% block content %}
-	{% for product in products %}
-		<div class="product">
-			<h3>{{ product.name }} - {{ product.price }}</h3>
+	<div class="container text-center">
+	{% for chunk in products_chunks %}
+		<div class="row">
+		{% for product in chunk %}
+			<div class="col product">
+				<h3>{{ product.name }} - {{ product.price }}</h3>
+			</div>
+		{% endfor %}
+		{% if chunk|length == 1 %}
+			<div class="col">
+				<!-- Empty block -->
+			</div>
+		{% endif %}
 		</div>
 	{% endfor %}
+	</div>
 {% endblock %}
