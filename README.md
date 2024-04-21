@@ -62,7 +62,7 @@ https://tutorial.djangogirls.org/ru/django/
 
 - `pa_autoconfigure_django.py https://github.com/YOUR_GITHUB/YOUR_REPO.git`
     - **(P.S. You can copy it from url) As example, this repo:**
-    - `pa_autoconfigure_django.py https://github.com/leha404/django_bublik_`
+    - `pa_autoconfigure_django.py https://github.com/leha404/django_bublik`
 
 - `python manage.py createsuperuser`
 
