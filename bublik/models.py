@@ -15,7 +15,7 @@ class Order(models.Model):
     products = models.ManyToManyField(Product, through="Orderposition")
 
     def __str__(self):
-        return str(self.id)
+        return str(self.id) + " - " + str(self.created_date)
     
 class Orderposition(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

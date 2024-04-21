@@ -3,14 +3,25 @@
 
 {% block content %}
 	<div class="container text-center">
-		<div class="row">
-			<div class="col">
-				<button id="reset-button" class="product">Сбросить корзину</button>
+		<div class="row product">
+			<div class="col-4">
+				<button id="reset-button" class="btn btn-primary">Сбросить корзину</button>
 			</div>
 			<div class="col">
 				<form id="cart-form" action="/order/new/" method="POST">{% csrf_token %}
 					<!-- Динамические поля будут добавлены сюда с помощью JavaScript -->
-					<button type="submit" class="product">Сохранить заказ</button>
+					<div class="row">
+						<div class="col">
+							<select class="form-select" name="payment_method">
+								<option selected value="card">Карта</option>
+								<option value="cash">Наличные</option>
+								<option value="perevod">Перевод</option>
+							</select>
+						</div>
+						<div class="col">
+							<button type="submit" class="btn btn-success">Сохранить заказ</button>
+						</div>
+					</div>
 				</form>
 			</div>
 		</div>
