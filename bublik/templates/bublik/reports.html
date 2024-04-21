@@ -1,0 +1,49 @@
+{% extends 'bublik/base.html' %}
+
+{% block content %}
+	
+    <h3>Отчет по товарам:</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Цена</th>
+                <th>Кол-во</th>
+                <th>Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in product_table %}
+                <tr>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.price }}</td>
+                    <td>{{ row.cnt }}</td>
+                    <td>{{ row.sum }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Отчет по суммам:</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Итого</th>
+                <th>Наличными</th>
+                <th>Картой</th>
+                <th>Переводом</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in cash_table %}
+                <tr>
+                    <td>{{ row.main }}</td>
+                    <td>{{ row.cash }}</td>
+                    <td>{{ row.card }}</td>
+                    <td>{{ row.perevod }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product
 from .forms import OrderForm, OrderpositionForm
+from django.db import connection
 
 # Create your views here.
 def product_list(request):
@@ -34,3 +35,40 @@ def order_new(request):
                 pos.save()
 
         return redirect('product_list')
+    
+# Не лучший вариант, но оставил raw sql
+def reports(request):
+    # product_table
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                    P.name,
+                    P.price,
+                    sum(POS.count) as cnt,
+                    sum(P.price * POS.count) as sum
+                from bublik_order as O
+                inner join bublik_orderposition as POS on POS.order_id = O.id
+                inner join bublik_product as P on POS.product_id = P.id
+            group by P.name, P.price
+        """)
+        rows = cursor.fetchall()
+
+    product_table = [dict(zip([column[0] for column in cursor.description], row)) for row in rows]
+
+    # cash_table
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT
+                sum(POS.count * P.price) as main,
+                sum(case when O.payment_type = 'cash' then POS.count * P.price else 0 end) as cash,
+                sum(case when O.payment_type = 'card' then POS.count * P.price else 0 end) as card,
+                sum(case when O.payment_type = 'perevod' then POS.count * P.price else 0 end) as perevod
+            from bublik_order as O
+            inner join bublik_orderposition as POS on POS.order_id = O.id
+            inner join bublik_product as P on POS.product_id = P.id
+        """)
+        rows = cursor.fetchall()
+
+    cash_table = [dict(zip([column[0] for column in cursor.description], row)) for row in rows]
+
+    return render(request, 'bublik/reports.html', {'product_table': product_table, 'cash_table': cash_table})
