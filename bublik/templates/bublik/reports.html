@@ -62,10 +62,10 @@
         <tbody>
             {% for row in cash_table %}
                 <tr>
-                    <td>{{ row.main|multiply:0.20|floatformat:"2" }}</td>
-                    <td>{{ row.main|multiply:0.10|floatformat:"2" }}</td>
-                    <td>{{ row.main|multiply:0.07|floatformat:"2" }}</td>
-                    <td>{{ row.main|multiply:0.06|floatformat:"2" }}</td>
+                    <td>{{ row.main|default:"0"|to_float|multiply:0.20|floatformat:"2" }}</td>
+                    <td>{{ row.main|default:"0"|to_float|multiply:0.10|floatformat:"2" }}</td>
+                    <td>{{ row.main|default:"0"|to_float|multiply:0.07|floatformat:"2" }}</td>
+                    <td>{{ row.main|default:"0"|to_float|multiply:0.06|floatformat:"2" }}</td>
                 </tr>
             {% endfor %}
         </tbody>
