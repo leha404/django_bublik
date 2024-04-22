@@ -1,11 +1,19 @@
 {% extends 'bublik/base.html' %}
 
 {% block content %}
-	<div class="container text-center">
-	{% for order in orders %}
-		<div class="row product">
-			<h3>Заказ №{{ order.id }}: {{ order.created_date }}</h3>
-		</div>
-	{% endfor %}
-	</div>
+    <div class="container">
+    {% for order in orders %}
+        <div class="row product">
+            <h3>Заказ №{{ order.id }}</h3>
+			<p>Дата создания: {{ order.created_date }}</p>
+            <p>Сумма заказа: {{ order.total_sum }}</p>
+			<p>Тип оплаты: {{ order.payment_type }}</p>
+            <ul>
+                {% for position in order.positions %}
+                    <li>{{ position.product.name }} - {{ position.count }} шт. по цене {{ position.product.price }} за ед. (Итого: {{ position.total_price }})</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+    </div>
 {% endblock %}

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product, Order
 from .forms import OrderForm, OrderpositionForm
 from django.db import connection
+from django.db.models import Sum, F
 
 # Create your views here.
 def product_list(request):
@@ -9,7 +10,12 @@ def product_list(request):
     return render(request, 'bublik/product_list.html', {'products': products})
 
 def order_list(request):
-    orders = Order.objects.all()
+    orders = Order.objects.annotate(total_sum=Sum(F('orderposition__count') * F('orderposition__product__price'))).order_by('-created_date')
+    for order in orders:
+        positions = order.orderposition_set.all()
+        for position in positions:
+            position.total_price = position.count * position.product.price
+        order.positions = positions
     return render(request, 'bublik/order_list.html', {'orders': orders})
 
 def order_new(request):
