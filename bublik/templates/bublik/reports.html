@@ -1,4 +1,5 @@
 {% extends 'bublik/base.html' %}
+{% load custom_filters %}
 
 {% block content %}
 	
@@ -45,5 +46,30 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <h3>Проценты:</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>1 сотрудник (20%)</th>
+                <th>2 сотрудника (10%)</th>
+                <th>3 сотрудника (7%)</th>
+                <th>4 сотрудника (6%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in cash_table %}
+                <tr>
+                    <td>{{ row.main|multiply:0.20|floatformat:"2" }}</td>
+                    <td>{{ row.main|multiply:0.10|floatformat:"2" }}</td>
+                    <td>{{ row.main|multiply:0.07|floatformat:"2" }}</td>
+                    <td>{{ row.main|multiply:0.06|floatformat:"2" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Для комментариев</h3>
+    <textarea placeholder="Введите что-нибудь" style="width: 100%; height: 200px;"/></textarea>
 
 {% endblock %}
