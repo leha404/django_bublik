@@ -9,7 +9,7 @@ class Product(models.Model):
     def __str__(self):
         return self.name + " - " + str(self.price)
 class Order(models.Model):
-    created_date = models.DateTimeField(default=timezone.now)
+    created_date = models.DateTimeField(default=timezone.localtime)
     # cash, card, perevod
     payment_type = models.CharField(max_length=10)
     products = models.ManyToManyField(Product, through="Orderposition")

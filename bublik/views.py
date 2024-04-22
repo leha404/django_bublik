@@ -11,7 +11,7 @@ def product_list(request):
     return render(request, 'bublik/product_list.html', {'products': products})
 
 def order_list(request):
-    today_start = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    today_start = timezone.localtime().replace(hour=0, minute=0, second=0, microsecond=0)
     orders = Order.objects.filter(created_date__gte=today_start).annotate(total_sum=Sum(F('orderposition__count') * F('orderposition__product__price'))).order_by('-created_date')
     for order in orders:
         positions = order.orderposition_set.all()
@@ -61,7 +61,9 @@ def reports(request):
                 from bublik_order as O
                 inner join bublik_orderposition as POS on POS.order_id = O.id
                 inner join bublik_product as P on POS.product_id = P.id
-            where O.created_date > date('now')
+            -- // BUG
+            -- Timezone bug
+            where O.created_date > date('now', '+5 hours')
             group by P.name, P.price
         """)
         rows = cursor.fetchall()
@@ -79,7 +81,9 @@ def reports(request):
             from bublik_order as O
             inner join bublik_orderposition as POS on POS.order_id = O.id
             inner join bublik_product as P on POS.product_id = P.id
-            where O.created_date > date('now')
+            -- // BUG
+            -- Timezone bug
+            where O.created_date > date('now', '+5 hours')
         """)
         rows = cursor.fetchall()
 
