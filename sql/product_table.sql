@@ -7,4 +7,5 @@ SELECT
     from bublik_order as O
     inner join bublik_orderposition as POS on POS.order_id = O.id
     inner join bublik_product as P on POS.product_id = P.id
+where O.created_date > date('now')
 group by P.name, P.price

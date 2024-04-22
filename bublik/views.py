@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from .models import Product, Order
 from .forms import OrderForm, OrderpositionForm
 from django.db import connection
@@ -10,7 +11,8 @@ def product_list(request):
     return render(request, 'bublik/product_list.html', {'products': products})
 
 def order_list(request):
-    orders = Order.objects.annotate(total_sum=Sum(F('orderposition__count') * F('orderposition__product__price'))).order_by('-created_date')
+    today_start = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    orders = Order.objects.filter(created_date__gte=today_start).annotate(total_sum=Sum(F('orderposition__count') * F('orderposition__product__price'))).order_by('-created_date')
     for order in orders:
         positions = order.orderposition_set.all()
         for position in positions:
@@ -30,8 +32,8 @@ def order_new(request):
             order.save()
 
             for p_key in products:
-                product_id = p_key[8:]  # Извлекаем ID продукта, начиная с 9-го символа ключа
-                product_quantity = products[p_key]  # Получаем количество продукта
+                product_id = p_key[8:]  # Извлекаем ID продукта, начиная с 9-го символа ключа (product_111)
+                product_quantity = products[p_key]
                 
                 order_pos_form = OrderpositionForm()
                 pos = order_pos_form.save(commit=False)
@@ -59,6 +61,7 @@ def reports(request):
                 from bublik_order as O
                 inner join bublik_orderposition as POS on POS.order_id = O.id
                 inner join bublik_product as P on POS.product_id = P.id
+            where O.created_date > date('now')
             group by P.name, P.price
         """)
         rows = cursor.fetchall()
@@ -76,6 +79,7 @@ def reports(request):
             from bublik_order as O
             inner join bublik_orderposition as POS on POS.order_id = O.id
             inner join bublik_product as P on POS.product_id = P.id
+            where O.created_date > date('now')
         """)
         rows = cursor.fetchall()
 
