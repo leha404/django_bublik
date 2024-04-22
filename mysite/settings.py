@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-uvbjj8(s$q)l*#i-2lt4*r(q@s9$j=-g!nh%2=z+*oyde59q02
 DEBUG = True
 
 # ngrok - for test
-ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com', '087a-90-151-85-72.ngrok-free.app']
+ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com',]
 
 
 # Application definition
