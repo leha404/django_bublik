@@ -1,0 +1,11 @@
+{% extends 'bublik/base.html' %}
+
+{% block content %}
+	<div class="container text-center">
+	{% for order in orders %}
+		<div class="row product">
+			<h3>Заказ №{{ order.id }}: {{ order.created_date }}</h3>
+		</div>
+	{% endfor %}
+	</div>
+{% endblock %}

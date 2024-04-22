@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product
+from .models import Product, Order
 from .forms import OrderForm, OrderpositionForm
 from django.db import connection
 
@@ -7,6 +7,10 @@ from django.db import connection
 def product_list(request):
     products = Product.objects.all()
     return render(request, 'bublik/product_list.html', {'products': products})
+
+def order_list(request):
+    orders = Order.objects.all()
+    return render(request, 'bublik/order_list.html', {'orders': orders})
 
 def order_new(request):
     if request.method == 'POST':
