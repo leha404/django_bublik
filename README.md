@@ -9,13 +9,21 @@ https://tutorial.djangogirls.org/ru/django/
 ---
 
 ### Install Instructions:
-1. Install virtual env (macOS):  
-`python3 -m venv myvenv`
+1. Install virtual env: 
+    - MacOS  
+    `python3 -m venv myvenv`
+    - Windows
+    `python -m venv myvenv`
+
 
 2. Run virtual environment:  
-`source myvenv/bin/activate`
+    - MacOS
+    `source myvenv/bin/activate`
+    - Windows
+    `myvenv\Scripts\activate`
 
-3. Update Python package manager:  
+
+3. Update Python package manager (for Windows use python command, not python3):  
 `python3 -m pip install --upgrade pip`
 
 4. Get requirement packages (check requirements.txt):  
@@ -66,8 +74,37 @@ https://tutorial.djangogirls.org/ru/django/
 
 - `python manage.py createsuperuser`
 
----
-
 P.S. Upload static files (CSS):  
 1. Activate venv
 2. python manage.py collectstatic
+
+---
+
+### Windows problems
+
+If you cannot activate vEnv and it's error:  
+about_Execution_Policies
+
+**Try this one:**  
+`Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
+
+Activate your env.  
+To return policies back:  
+`Set-ExecutionPolicy -ExecutionPolicy Restricted -Scope CurrentUser`
+
+---
+
+### How to
+
+**Want create one executable file for a project?**
+
+- Make sure, that your PYTHONPATH has your project path
+- Set policies remote signed for Windows (above)
+- Activate vEnv
+- Install pyinstaller (for a first time)
+`pip install pyinstaller`
+- Use next command 
+`pyinstaller --onefile --add-data 'bublik/static;bublik/static' --add-data 'bublik/templates;bublik/templates' --hidden-import=django manage.py`
+- Check dist folder
+- Make sure to place your sqlite file with executable file together
+- How activate? Use 'manage.exe runserver --noreload' command in a shell

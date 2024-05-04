@@ -2,6 +2,8 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+# Debugging
+from django.conf import settings
 
 
 def main():
@@ -15,6 +17,8 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+    # Debugging
+    print("Путь к базе данных:", settings.DATABASES['default']['NAME'])
     execute_from_command_line(sys.argv)
 
 
