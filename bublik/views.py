@@ -5,7 +5,6 @@ from .forms import OrderForm, OrderpositionForm
 from django.db import connection
 from django.db.models import Sum, F
 
-# Create your views here.
 def product_list(request):
     products = Product.objects.all()
     return render(request, 'bublik/product_list.html', {'products': products})
@@ -19,6 +18,15 @@ def order_list(request):
             position.total_price = position.count * position.product.price
         order.positions = positions
     return render(request, 'bublik/order_list.html', {'orders': orders})
+
+def delete_order(request):
+    if request.method == 'POST':
+        order_id = request.POST.get('order_id')
+        print("deleting order id - " + str(order_id))
+        if order_id:
+            order = get_object_or_404(Order, id=order_id)
+            order.delete()
+        return order_list(request)
 
 def order_new(request):
     if request.method == 'POST':

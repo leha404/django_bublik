@@ -6,6 +6,11 @@
         <div class="row product">
             <h3>Заказ №{{ order.id }}</h3>
 			<p>Дата создания: {{ order.created_date }}</p>
+            <form id="delete-order-{{order.id}}" action="/order/delete/" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="order_id" value="{{order.id}}">
+                <button type="submit" class="btn btn-danger">Удалить заказ</button>
+            </form>
             <p>Сумма заказа: {{ order.total_sum }}</p>
 			<p>Тип оплаты: {{ order.payment_type }}</p>
             <ul>
