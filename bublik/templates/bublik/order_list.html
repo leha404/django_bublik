@@ -12,7 +12,17 @@
                 <button type="submit" class="btn btn-danger">Удалить заказ</button>
             </form>
             <p>Сумма заказа: {{ order.total_sum }}</p>
-			<p>Тип оплаты: {{ order.payment_type }}</p>
+			
+            {% if order.payment_type == "cash" %}
+                <p>Тип оплаты: Наличные</p>
+            {% elif order.payment_type == "card" %}
+                <p>Тип оплаты: Карта</p>
+            {% elif order.payment_type == "perevod" %}
+                <p>Тип оплаты: Перевод</p>
+            {% else %}
+                <p>Тип оплаты: ???</p>
+            {% endif %}
+            
             <ul>
                 {% for position in order.positions %}
                     <li>{{ position.product.name }} - {{ position.count }} шт. по цене {{ position.product.price }} за ед. (Итого: {{ position.total_price }})</li>
